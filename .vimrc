@@ -10,6 +10,7 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'rdnetto/YCM-Generator'
+Plugin 'briancollins/vim-jst'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
