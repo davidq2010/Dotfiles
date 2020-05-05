@@ -126,5 +126,3 @@ fi
 
 # add WSL to .bashrc
 export DISPLAY=localhost:0.0
-
-export SCREENDIR=$HOME/.screen
