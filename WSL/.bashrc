@@ -124,5 +124,8 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export VISUAL='vim'
+export EDITOR="$VISUAL"
+
 # add WSL to .bashrc
 export DISPLAY=localhost:0.0

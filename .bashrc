@@ -122,3 +122,8 @@ fi
 
 export VISUAL='vim'
 export EDITOR="$VISUAL"
+
+export PATH="${HOME}/anaconda3/bin:$PATH"
+
+# add WSL to .bashrc
+#export DISPLAY=localhost:0.0

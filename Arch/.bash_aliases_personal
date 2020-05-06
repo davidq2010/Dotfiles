@@ -1,1 +1,2 @@
-alias reflect='sudo reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist'
+alias reflect='reflector --verbose --latest 10 --sort rate --save /etc/pacman.d/mirrorlist'
+alias autoremove='pacman -Rns $(pacman -Qtdq)'
