@@ -24,3 +24,19 @@ cdl() {
     cd -- $directory && ls
   fi
 }
+
+cdla() {
+  all=false
+  directory=
+  while [[ "$1" != "" ]]; do
+    case $1 in
+      -a | --all )    all=true
+                      ;;
+      * )             directory="$1"
+                      ;;
+    esac
+    shift
+  done
+
+  cd -- $directory && la
+}
