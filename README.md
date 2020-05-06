@@ -7,3 +7,4 @@ General/ contains config files without plugins
 # Tmux Package Manager
 https://github.com/tmux-plugins/tpm
 Required for plugins
+In tmux, press <prefix>+I to fetch plugin
