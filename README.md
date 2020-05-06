@@ -5,6 +5,9 @@ Put personal aliases in .bash_aliases_personal
 General/ contains config files without plugins
 
 # Tmux Package Manager
-https://github.com/tmux-plugins/tpm
 Required for plugins
-In tmux, press <prefix>+I to fetch plugin
+`git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+In tmux, press `<prefix> + I` to fetch plugins.
+
+# Vundle
+`git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
