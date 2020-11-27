@@ -1,10 +1,18 @@
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
+" Source plugins file if it exists
+function SourceIfExists(file)
+  if !empty(glob(expand(a:file)))
+    exec "source" a:file
+  endif
+endfunction
+
+call SourceIfExists("~/.vim/vim_plugins.vimrc")
+
 filetype plugin indent on    " required
 " To ignore plugin *indent* changes, instead use:
 "filetype plugin on
-
 
 """ CORE COMMANDS """
 "show line numbers on the left
@@ -26,13 +34,16 @@ filetype plugin indent on    " required
 :highlight ColorColumn ctermbg=lightgrey guibg=lightgrey
 
 "highlights trailing whitespace and automatically removes it on write
+"Create highlight group
 :highlight ExtraWhitespace ctermbg=cyan guibg=cyan
+"Prevent colorschemes loaded later from clearing custom highlight groups
+:autocmd ColorScheme * highlight ExtraWhitespace ctermbg=cyan guibg=cyan
 :match ExtraWhitespace /\s\+$/
 :autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
 :autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 :autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 :autocmd BufWinLeave * call clearmatches()
-:autocmd InsertLeave * redraw!
+"Remove trailing whitespace on write
 :autocmd BufWritePre * :%s/\s\+$//e
 
 "allows latex suite to recognize all .tex files for syntax highlighting
@@ -44,13 +55,9 @@ filetype plugin indent on    " required
 "allows doxygen formatting to be used
 :let g:load_doxygen_syntax=1
 
-"let .incl files be viewed with PHP syntax
-:au BufNewFile,BufRead *.incl set ft=php
-
 "set spell check to be on for certain filetypes
 :autocmd FileType tex setlocal spell
 :autocmd FileType html setlocal spell
-:autocmd FileType php setlocal spell
 
 "set colorscheme to default
 :colorscheme ron
@@ -79,7 +86,11 @@ augroup END
 autocmd BufWinLeave *.* mkview
 autocmd BufWinEnter *.* silent loadview
 
-if has("autocmd")
-        au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
-                                \| exe "normal! g`\"" | endif
-endif
+" Remove blank lines at end of file and remember cursor position
+function TrimEndLines()
+  let save_cursor = getpos(".")
+  silent! %s#\($\n\s*\)\+\%$##
+  call setpos('.', save_cursor)
+endfunction
+
+autocmd BufWritePre * call TrimEndLines()
