@@ -1,5 +1,6 @@
 # Tmux
-If using tmux, need to do the following:
+If using tmux, it's assumed that you're using Vim with it, so need to do the
+following:
 1) Install Tmux Package Manager:
   a) git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 2) In .tmux.conf press "<prefix> + I" (e.g., Ctrl-a + I) to install plugins.
