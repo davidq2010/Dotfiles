@@ -13,6 +13,9 @@ local get_map_options = function(custom_options)
     return options
 end
 
+-- TODO: Define my own autocmd interface
+
+-- https://github.com/nanotee/nvim-lua-guide#modules
 local M = {}
 
 -- Although we call it "map", they're really noremap b/c of get_map_options()
@@ -32,7 +35,8 @@ M.buf_map = function(mode, target, source, opts, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr or 0, mode, target, source, get_map_options(opts))
 end
 
--- Defines a :command; the bang means redefine the command if it already exists
+-- Defines a ':' command; the bang means redefine the command if it already exists
+-- 'command' assigns a name to a ':' command while <cmd>...<CR> avoids mode-changes and doesn't trigger CmdlineEnter/Leave events (helps perf)
 M.command = function(name, fn)
     vim.cmd(string.format("command! %s %s", name, fn))
 end
