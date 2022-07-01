@@ -4,7 +4,7 @@ local fn = vim.fn
 -- Issue when packer.nvim is opt https://www.reddit.com/r/neovim/comments/ooijlf/packer_prompting_to_delete_packernvim_every_time/
 local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-    packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+    Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
 -- :PackerCompile            (regen compiled loader file)
@@ -92,8 +92,32 @@ return require('packer').startup({
         use({
             'nvim-telescope/telescope.nvim',
             config = config('telescope'),
-            requires = { 'nvim-lua/plenary.nvim' },
+            requires = {
+                'nvim-lua/plenary.nvim',
+                {
+                    'nvim-telescope/telescope-fzf-native.nvim', run = 'make'
+                }
+            },
         })
+
+        use {
+            'ibhagwan/fzf-lua',
+            requires = {
+                {
+                    -- optional for icon support
+                    'kyazdani42/nvim-web-devicons', opt = true
+                },
+                {
+                    'junegunn/fzf', run = './install --bin'
+                }
+            }
+        }
+
+        -- status line
+        use {
+              'nvim-lualine/lualine.nvim', config = config("lualine"),
+              requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+        }
 
         -- comment
         use({ "numToStr/Comment.nvim", config = config("comment") })
@@ -101,21 +125,22 @@ return require('packer').startup({
         -- autopairs
         use {"windwp/nvim-autopairs", config = config("nvim-autopairs")}
 
-        -- TODO: Add plugins for git, fzf, statusline (lualine)
+        -- TODO: Which key?
+        -- TODO: Add plugins for git
         -- TODO: Add more linters for null-ls (i.e., Python, C#, C++)
         -- TODO: Add omnisharp language server and C++ language server
 
         -- Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all plugins
-        if packer_bootstrap then
+        if Packer_bootstrap then
             require('packer').sync()
         end
     end,
     config = {
         -- Floating window for Packer command outputs (https://github.com/wbthomason/packer.nvim#using-a-floating-window)
         display =
-            {
-                open_fn = function() return require('packer.util').float({ border = 'rounded' }) end
-            }
+        {
+            open_fn = function() return require('packer.util').float({ border = 'rounded' }) end
+        }
     }
 })

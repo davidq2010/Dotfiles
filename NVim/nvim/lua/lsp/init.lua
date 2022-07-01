@@ -50,14 +50,15 @@ end
 local lsp_installer = require("nvim-lsp-installer")
 
 local servers = {
-	"pyright",
-	--'cssls',
-	--'emmet_ls',
-	--'eslint',
+    "bashls",
+    "ccls",
+	'cssls',
 	"jsonls",
+    "omnisharp",
+	"pyright",
+	--'eslint',
 	"sumneko_lua",
-	--'tailwindcss',
-	--'tsserver'
+	'tsserver'
 }
 
 -- These are based on schemas, which you can see by :LspInstallInfo and expanding installed servers -> schemas

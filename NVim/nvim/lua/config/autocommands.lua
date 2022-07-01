@@ -21,6 +21,7 @@ vim.cmd('autocmd! VimResized * wincmd =')
 vim.cmd('autocmd! TextYankPost * lua vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })')
 
 -- Remember folds
+-- https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
 vim.cmd([[
   augroup remember_folds
     autocmd!
@@ -28,8 +29,8 @@ vim.cmd([[
     autocmd BufReadPre * setlocal foldmethod=indent
     autocmd BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
     " Save folds and restore them for a file
-    autocmd BufWinLeave * mkview
-    autocmd BufWinEnter * silent! loadview
+    autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
+    autocmd BufWinEnter ?* silent! loadview
   augroup END
 ]])
 

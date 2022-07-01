@@ -4,7 +4,7 @@
 vim.g.tex_flavor = "latex"
 
 -- Misc Display options
-vim.opt.clipboard            = "unnamedplus"     -- always use clipbaord for all operations (isntead of interacting w/+ and/or * registers explicitly
+--vim.opt.clipboard            = "unnamedplus"     -- always use clipbaord for all operations (isntead of interacting w/+ and/or * registers explicitly
 vim.opt.mouse                = "a"               -- enable mouse in all modes
 vim.opt.number               = true              -- show line number
 vim.opt.showcmd              = false             -- don't show partial command in last line
@@ -55,7 +55,9 @@ vim.opt.splitright           = true              -- force all vertical splits to
 vim.opt.timeoutlen           = 500               -- time in ms to wait for a mapped sequence to complete
 
 -- Format options
---
+-- Per https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
+vim.opt.viewoptions          = "folds,cursor"
+vim.opt.sessionoptions       = "folds"
 -- https://github.com/nanotee/nvim-lua-guide#using-meta-accessors
 -- However, this doesn't work b/c some default plugins are loaded later than init.lua which override these
 -- Can check via :verbose set formatoptions
