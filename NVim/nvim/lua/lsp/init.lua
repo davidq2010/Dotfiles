@@ -19,7 +19,7 @@ local border_opts = { border = "single", focusable = false }
 lsp.handlers["textDocument/signatureHelp"] = lsp.with(lsp.handlers.signature_help, border_opts)
 lsp.handlers["textDocument/hover"] = lsp.with(lsp.handlers.hover, border_opts)
 
-local on_attach = function(client, bufnr)
+local default_on_attach = function(client, bufnr)
 	-- Mappings
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	-- https://github.com/neovim/nvim-lspconfig#suggested-configuration
@@ -99,6 +99,6 @@ lsp_installer.on_server_ready(function(server)
 	config.capabilities = require("cmp_nvim_lsp").update_capabilities(config.capabilities)
 
 	-- set on_attach handler
-	config.on_attach = on_attach
+	config.on_attach = default_on_attach
 	server:setup(config)
 end)

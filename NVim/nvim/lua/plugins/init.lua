@@ -19,8 +19,8 @@ end
 -- https://vi.stackexchange.com/questions/104/how-can-i-see-the-full-path-of-the-current-file#:~:text=In%20insert%20mode%2C%20type%20Ctrl%20-%20r%20then,name%20of%20the%20current%20file%20at%20vim%20wikia
 vim.cmd([[
   augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost */plugins/init.lua source %:p | PackerCompile
+  autocmd!
+  autocmd BufWritePost */plugins/init.lua source %:p | PackerCompile
   augroup end
 ]])
 return require('packer').startup({
@@ -115,8 +115,8 @@ return require('packer').startup({
 
         -- status line
         use {
-              'nvim-lualine/lualine.nvim', config = config("lualine"),
-              requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+            'nvim-lualine/lualine.nvim', config = config("lualine"),
+            requires = { 'kyazdani42/nvim-web-devicons', opt = true }
         }
 
         -- comment
@@ -125,10 +125,22 @@ return require('packer').startup({
         -- autopairs
         use {"windwp/nvim-autopairs", config = config("nvim-autopairs")}
 
-        -- TODO: Which key?
+        -- which-key
+        use {
+            "folke/which-key.nvim"
+        }
+
+        -- tmux
+        use {
+            "christoomey/vim-tmux-navigator"
+        }
+
+        -- colorscheme
+        use {
+            'Mofiqul/dracula.nvim'
+        }
+
         -- TODO: Add plugins for git
-        -- TODO: Add more linters for null-ls (i.e., Python, C#, C++)
-        -- TODO: Add omnisharp language server and C++ language server
 
         -- Automatically set up your configuration after cloning packer.nvim
         -- Put this at the end after all plugins
@@ -139,8 +151,8 @@ return require('packer').startup({
     config = {
         -- Floating window for Packer command outputs (https://github.com/wbthomason/packer.nvim#using-a-floating-window)
         display =
-        {
-            open_fn = function() return require('packer.util').float({ border = 'rounded' }) end
-        }
+            {
+                open_fn = function() return require('packer.util').float({ border = 'rounded' }) end
+            }
     }
 })

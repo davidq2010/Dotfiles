@@ -19,11 +19,11 @@ vim.opt.signcolumn           = "yes"             -- always show the sign column 
 -- TODO: After updating to nightly: https://github.com/tjdevries/config_manager/blob/8d56cc3e4eeaeb8087b3b56d0178741a7e2d924c/xdg_config/nvim/plugin/options.lua#:~:text=%2D%2D%20%20Only%20have%20it%20on%20in%20the%20active%20buffer
 -- This is to only highlight in the current buffer
 vim.opt.cursorline           = true              -- highlight the current line
-vim.cmd("colorscheme desert")
+vim.cmd("colorscheme dracula")
 -- https://stackoverflow.com/questions/8640276/how-do-i-change-my-vim-highlight-line-to-not-be-an-underline
-vim.cmd([[
-  highlight CursorLine cterm=bold guibg=DarkGray
-]])
+--vim.cmd([[
+--  highlight CursorLine cterm=bold guibg=DarkGray
+--]])
 
 
 -- Popup options
