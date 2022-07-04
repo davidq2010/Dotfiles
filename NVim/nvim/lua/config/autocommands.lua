@@ -14,25 +14,53 @@ vim.cmd([[
   augroup END
 ]])
 
--- Resize panes when Vim window resized
-vim.cmd('autocmd! VimResized * wincmd =')
+vim.api.nvim_create_autocmd("VimResized", {
+    pattern = "*",
+    command = "wincmd =",
+    desc = "Resize panes when Vim window is resized",
+})
 
--- Highlight on yank
-vim.cmd('autocmd! TextYankPost * lua vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })')
+vim.api.nvim_create_autocmd("TextYankPost", {
+    pattern = "*",
+    callback = function()
+        vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
+    end,
+    desc = "Briefly highlight on yank",
+})
 
 -- Remember folds
+local au_id = vim.api.nvim_create_augroup("remember_folds", {clear = true})
+-- Indent and manual folding enabled: https://vim.fandom.com/wiki/Folding#Indent_folding_with_manual_folds
+-- The first two autocmds will be overriden by treesitter's foldmethod (in treesitter config file)
+vim.api.nvim_create_autocmd("BufReadPre", {
+    pattern = "*",
+    command = "setlocal foldmethod=indent",
+    group = au_id,
+    desc = "Set 'indent' as fold method before loading file"
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    pattern = "*",
+    command = "if &foldmethod == 'indent' | setlocal foldmethod=manual | endif",
+    group = au_id,
+    desc = "Allow manual folding while editing (only if foldmethod is 'indent')"
+})
 -- https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
-vim.cmd([[
-  augroup remember_folds
-    autocmd!
-    " Indent folding + manual folding enabled
-    autocmd BufReadPre * setlocal foldmethod=indent
-    autocmd BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
-    " Save folds and restore them for a file
-    autocmd BufWinLeave,BufLeave,BufWritePost,BufHidden,QuitPre ?* nested silent! mkview!
-    autocmd BufWinEnter ?* silent! loadview
-  augroup END
-]])
+-- bufleave but not bufwinleave captures closing 2nd tab
+-- nested is needed by bufwrite* (if triggered via other autocmd)
+-- BufHidden for compatibility with `set hidden`"
+vim.api.nvim_create_autocmd({"BufWinLeave", "BufLeave", "BufWritePost", "BufHidden", "QuitPre"}, {
+    pattern = "?*",
+    command = "silent! mkview!",
+    nested = true,
+    group = au_id,
+    desc = "Save folds"
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+    pattern = "?*",
+    command = "silent! loadview",
+    group = au_id,
+    desc = "Load folds"
+})
 
 -- Remove blank lines at end of file and remember cursor position
 -- https://stackoverflow.com/questions/7495932/how-can-i-trim-blank-lines-at-the-end-of-file-in-vim
@@ -44,7 +72,16 @@ vim.cmd([[
     call setpos('.', save_cursor)
   endfunction
 ]])
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = "*",
+    callback = "g:TrimEndLinesAndTrailingWhitespace",
+    desc = "Remove blank lines at end of file and remember cursor position",
+})
 
-vim.cmd([[autocmd! BufWritePre * call TrimEndLinesAndTrailingWhitespace()]])
-
-vim.cmd([[autocmd! FileType * setlocal formatoptions-=o formatoptions-=c]])
+-- Do not auto-wrap comments using textwidth
+-- Do not automatically insert comment leader after hitting o or O in Normal mode
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    command = "setlocal formatoptions-=o formatoptions-=c",
+    desc = "Set options for how Vim formats text"
+})

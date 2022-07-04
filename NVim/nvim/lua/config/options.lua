@@ -56,6 +56,8 @@ vim.opt.timeoutlen           = 500               -- time in ms to wait for a map
 
 -- Format options
 -- Per https://vi.stackexchange.com/questions/13864/bufwinleave-mkview-with-unnamed-file-error-32
+-- Also, per https://stackoverflow.com/questions/26917336/vim-specific-mkview-and-loadview-in-order-to-avoid-issues
+-- not setting viewoptions' "options" ensures that saved views do not call local mappings
 vim.opt.viewoptions          = "folds,cursor"
 vim.opt.sessionoptions       = "folds"
 -- https://github.com/nanotee/nvim-lua-guide#using-meta-accessors

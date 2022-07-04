@@ -7,13 +7,6 @@ if fn.empty(fn.glob(install_path)) > 0 then
     Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
--- :PackerCompile            (regen compiled loader file)
--- :PackerClean              (remove disabled/unused plugins)
--- :PackerInstall            (clean, then install missing plugins)
--- :PackerUpdate             (clean, update, and install plugins)
--- :PackerSync               (PackerUpdate then PackerCompile)
--- :PackerLoad <pkg1> <pkg2> (loads an opt plugin immediately)
-
 -- Run PackerCompile whenever plugins/init.lua is updated
 -- Register % contains name of current file
 -- https://vi.stackexchange.com/questions/104/how-can-i-see-the-full-path-of-the-current-file#:~:text=In%20insert%20mode%2C%20type%20Ctrl%20-%20r%20then,name%20of%20the%20current%20file%20at%20vim%20wikia
@@ -126,19 +119,13 @@ return require('packer').startup({
         use {"windwp/nvim-autopairs", config = config("nvim-autopairs")}
 
         -- which-key
-        use {
-            "folke/which-key.nvim"
-        }
+        use {"folke/which-key.nvim"}
 
         -- tmux
-        use {
-            "christoomey/vim-tmux-navigator"
-        }
+        use {"christoomey/vim-tmux-navigator"}
 
         -- colorscheme
-        use {
-            'Mofiqul/dracula.nvim'
-        }
+        use {'Mofiqul/dracula.nvim'}
 
         -- TODO: Add plugins for git
 

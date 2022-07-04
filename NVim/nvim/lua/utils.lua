@@ -20,7 +20,7 @@ local M = {}
 
 -- Although we call it "map", they're really noremap b/c of get_map_options()
 M.map = function(mode, target, source, opts)
-    vim.api.nvim_set_keymap(mode, target, source, get_map_options(opts))
+    vim.keymap.set(mode, target, source, get_map_options(opts))
 end
 
 -- Add some common map modes to M
@@ -32,7 +32,11 @@ end
 
 -- Buffer-local mapping
 M.buf_map = function(mode, target, source, opts, bufnr)
-    vim.api.nvim_buf_set_keymap(bufnr or 0, mode, target, source, get_map_options(opts))
+    local buf_opts = { buffer = bufnr or 0}
+    if opts then
+        buf_opts = vim.tbl_extend("force", buf_opts, opts)
+    end
+    vim.keymap.set(mode, target, source, get_map_options(buf_opts))
 end
 
 -- Defines a ':' command; the bang means redefine the command if it already exists
